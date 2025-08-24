@@ -49,12 +49,10 @@ jobs:
             set -euo pipefail
             ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
 
-
             az storage blob sync \
               -c '$web' \
               -s . \
               --account-name "$ACCOUNT" \
-              --auth-mode login \
               --delete-destination true \
               --exclude-path ".git;.github" \
               --exclude-pattern "*.md;*.MD;*.yml;*.yaml"
