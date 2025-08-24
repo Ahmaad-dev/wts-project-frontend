@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maschine 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hauptüberschrift für die Seite -->
+    <h1>Station Beta</h1>
+    <button id="modie-button" class="modie-button">Switch Mode</button>
+
+    <!-- Zwei-Spalten-Layout: Links Textinformationen, rechts Bild -->
+    <div class="two-columns">
+        <!-- Linke Spalte: Informationen über die Maschine -->
+        <div class="left-container">
+            <h2>Qualitätskontrollmaschine</h2>
+            <p>
+                Diese Maschine ist für die Echtzeitprüfung mit Kameras und hochmodernen Scannern konzipiert. 
+                Sie garantiert eine optimale Qualitätskontrolle und Fehlererkennung in Produktionslinien.
+            </p>
+
+            <!-- Bereich für die technischen Informationen der Maschine -->
+            <h3>
+                <img id="toggle-icon" src="pfeil-nach-rechts.png" alt="Toggle Pfeil" class="toggle-icon">
+                Technische Informationen
+            </h3>
+            <ul id="technical-info" class="machine-info hidden">
+                <!-- Dynamisch eingefügte Inhalte -->
+            </ul>
+
+            <!-- Maschinenstatus: Online/Offline-Status und Timer -->
+            <div class="machine-status">
+                <p>Maschinenstatus: <span id="status-circle" class="status-circle"></span></p>
+                <p id="offline-timer" style="display: none;">
+                    Verbindung ist offline seit: <span id="timer">0 Sekunden</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Rechte Spalte: Bild der Maschine -->
+        <div class="right-container">
+            <img src="machine2.png" alt="Maschine 2 Bild" class="machine-image" width="500" height="300">
+        </div>
+    </div>
+
+    <!-- Verlinkung zu anderen Maschinen -->
+    <div class="link-box">
+        <h3>Weitere Maschinen</h3>
+        <ul>
+            <li><a href="machine1.html">Station Alpha: Montagemaschine</a></li>
+            <li><a href="machine3.html">Station Gamma: Etikettiermaschine</a></li>
+            <li><a href="machine4.html">Station Delta: Verpackungsmaschine</a></li>
+            <li><a href="machine5.html">Station Epsilon: Diagnosemaschine</a></li>
+        </ul>
+    </div>
+
+    <!-- Fußzeile mit Impressum und Kontaktdaten -->
+    <footer>
+        <div class="footer-simple">
+            <p>&copy; 2025 Ahmad Alsayad | <a href="mailto:se231310@fhstp.ac.at">se231310@fhstp.ac.at</a></p>
+            <p>Lukas Kirmann, se231312 | Markus Fink, se231301</p>
+            <p>Datum: 15.07.2025</p>
+            <p>Impressum | Datenschutz &#128274;</p>
+        </div>
+    </footer>
+
+    <!-- Zurück-Link zur Hauptseite -->
+    <a href="base.html" class="back-link">Zurück zur Hauptseite</a>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" defer></script>
+    <script src="dataset.js?v=20250824" defer></script>
+</body>
+</html>

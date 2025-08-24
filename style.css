@@ -1,0 +1,435 @@
+/* Allgemeine Stile */
+body {
+	background-color: #dfdfdf;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+h1 {
+	background-color: #fff;
+	color: #ff3030;
+	padding: 18px;
+	margin: 0;
+	text-align: left;
+	border-bottom: 4px solid #ccc;
+}
+/* Willkommen-Box */
+.welcome-box {
+	background-color: #fff;
+	color: #333;
+	padding: 10px;
+	margin: 20px auto;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	width: 70%;
+	text-align: center;
+	font-size: 1.2em;
+}
+/* Produktionsbild */
+.container {
+	display: flex;
+	justify-content: center;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #fff;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	width: 80%;
+}
+.production-image {
+	border-radius: 10px;
+}
+/* Info-Box */
+.info-box {
+	background-color: #fff;
+	color: #333;
+	padding: 20px;
+	margin: 20px auto;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	width: 100%;
+	font-size: 1em;
+	line-height: 1.8;
+	text-align: left;
+}
+/* Stationen-Container */
+.stations-container {
+	background-color: #fff;
+	color: #333;
+	padding: 20px;
+	margin: 20px auto;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	width: 100%;
+}
+.station-container {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 20px;
+}
+.station-box {
+	background-color: #e4e3e3;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	flex: 1;
+}
+.station-box h3 {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+.station-box h4 {
+	font-size: 1em;
+	color: #222;
+	margin-bottom: 10px;
+	line-height: 1.4;
+}
+.station-box p {
+	font-size: 1em;
+	color: #333;
+}
+/* Footer */
+footer {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	padding: 10px 0;
+	font-size: 0.9em;
+}
+footer a {
+	color: #fff;
+	text-decoration: none;
+}
+footer a:hover {
+	text-decoration: underline;
+}
+footer p {
+	margin: 5px 0;
+}
+/* Zwei-Spalten-Layout für Maschinen */
+.two-columns {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	margin: 20px auto;
+	padding: 20px;
+	max-width: 1200px;
+}
+.left-container,.right-container {
+	background-color: #fff;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	width: 48%;
+}
+.left-container h2,.left-container h3 {
+	margin-bottom: 10px;
+}
+.left-container ul {
+	list-style-type: none;
+	padding: 0;
+}
+.left-container ul li {
+	margin-bottom: 10px;
+	font-size: 1em;
+	color: #333;
+}
+.right-container .machine-image {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+/* Link zurück zur Hauptseite */
+.back-link {
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	font-size: 1em;
+	color: #990000;
+	background-color: #dfdfdf;
+	text-decoration: none;
+	font-weight: bold;
+}
+.back-link:hover {
+	text-decoration: underline;
+}
+/* Links und Boxen zu weiteren Stationen */
+.link-box {
+	margin: 20px 0;
+	padding: 20px;
+	background: #fff;
+	border: 2px solid #ccc;
+	width: 40%;
+	text-align: left;
+}
+.link-box h3 {
+	margin-bottom: 10px;
+}
+.link-box ul {
+	padding: 0;
+	list-style: none;
+}
+.link-box ul li {
+	margin-bottom: 5px;
+}
+.link-box ul li a {
+	color: #cc0000;
+	text-decoration: none;
+}
+.link-box ul li a:hover {
+	text-decoration: underline;
+}
+/* Vorschau und js */
+.vorschau {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	margin: 20px auto;
+	padding: 20px;
+	max-width: 1200px;
+}
+.middle-container,.left-container,.right-container {
+	background-color: #fff;
+	border: 2px solid #ccc;
+	padding: 20px;
+	width: 30%;
+	box-sizing: border-box;
+}
+.middle-container input,.left-container input {
+	padding: 10px;
+	width: 90%;
+	margin-bottom: 10px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+	font-size: 1em;
+	box-sizing: border-box;
+}
+#station-list {
+	margin: 20px 0;
+}
+#station-list .station {
+	font-size: 1em;
+	color: #333;
+	margin: 5px 0;
+}
+#station-list .station.highlight {
+	color: black;
+	font-weight: bold;
+}
+#station-description {
+	margin-top: 20px;
+	font-size: 1em;
+	color: black;
+	white-space: pre-line;
+}
+#id-check-result {
+	margin-top: 15px;
+	font-size: 1em;
+}
+#id-check-result.success {
+	color: green;
+}
+#id-check-result.warning {
+	color: orange;
+}
+#id-check-result.error {
+	color: red;
+}
+/* Buttons */
+button {
+	padding: 10px 15px;
+	font-size: 1em;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.left-container button {
+	background-color: #0056b3;
+	color: #fff;
+}
+.left-container button:hover {
+	background-color: #003f7f;
+}
+.right-container button {
+	background-color: #cc0000;
+	color: #fff;
+}
+.right-container button:hover {
+	background-color: #cc2626;
+}
+/* Maschinenstatus-Anzeige */
+.status-circle {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background-color: gray;
+	margin-left: 5px;
+}
+.status-circle.online {
+	background-color: green;
+}
+.status-circle.offline {
+	background-color: red;
+}
+#offline-timer {
+	font-size: 1em;
+	color: #333;
+	margin-top: 5px;
+}
+/* Maschinenstatus-Stil */
+.machine-status p:first-child {
+	font-size: 1em;
+	font-weight: bold;
+	color: #333;
+}
+/* Pfeil-Styling */
+.toggle-icon {
+    width: auto;
+    height: 1em; /* Höhe wie die Schriftgröße */
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Versteckter Bereich */
+.hidden {
+    display: none;
+}
+
+
+
+/*Dark Mode // Day Mode*/
+/* Button auf der rechten Seite für den Switch Mode */
+.modie-button {
+    background-color: #1e1e1e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.modie-button:hover {
+    background-color: #333333;
+}
+
+.light-gray-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+.light-gray-mode button {
+    background-color: #333;
+    color: #ffffff;
+}
+.light-gray-mode h1 {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+.light-gray-mode .welcome-box {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+.light-gray-mode .left-container,
+.light-gray-mode .right-container,
+.light-gray-mode .link-box,
+.light-gray-mode .two-columns {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+.light-gray-mode .link-box a {
+    color: #ADD8E6;
+}
+.light-gray-mode .link-box a:hover {
+    color: #ffffff;
+}
+.light-gray-mode .machine-info li,
+.light-gray-mode .machine-info li strong,
+.light-gray-mode .machine-status p {
+    color: #ffffff;
+}
+.light-gray-mode .back-link {
+    background-color: #1e1e1e;
+    color: #ADD8E6;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.light-gray-mode .back-link:hover {
+    background-color: #333333;
+    color: #ffffff;
+}
+.light-gray-mode .info-box {
+    background-color: #1e1e1e; 
+    color: #ffffff; 
+}
+.light-gray-mode .container {
+    background-color: #1e1e1e; 
+    padding: 20px;
+    border-radius: 10px; 
+}
+.light-gray-mode .container img {
+    background-color: transparent; 
+}
+.light-gray-mode .stations-overview {
+    background-color: #1e1e1e; 
+    color: #ffffff; 
+    padding: 10px; 
+    border-radius: 10px; 
+}
+.light-gray-mode .stations-container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.light-gray-mode .footer {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.light-gray-mode .middle-container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.light-gray-mode .station-box {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.light-gray-mode .station-box:hover {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+.light-gray-mode .station-box h4 {
+    color: #ffffff;
+}
+.light-gray-mode .station-box p a {
+    color: #ADD8E6;
+}
+.light-gray-mode .station-box p a:hover {
+    color: #ffffff;
+}
+.light-gray-mode p.station {
+    color: #ffffff !important; /* Hier existier wohl ein Duplikat */
+}
+
+.light-gray-mode .station-box h4{
+    color: #ffffff !important; /* Hier existier wohl ein Duplikat */
+}
+.light-gray-mode #station-description {
+    color: #ffffff; /* Die Schriftfarbe im Dark Mode auf weiß setzen */
+}

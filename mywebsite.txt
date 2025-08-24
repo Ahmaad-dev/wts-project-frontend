@@ -1,0 +1,15 @@
+Primary endpoint:
+
+https://saswewts.z1.web.core.windows.net/
+
+	endpoints:
+
+	https://saswewts.z1.web.core.windows.net/
+	https://saswewts.z1.web.core.windows.net/
+	https://saswewts.z1.web.core.windows.net/
+	https://saswewts.z1.web.core.windows.net/
+	https://saswewts.z1.web.core.windows.net/
+
+
+
+

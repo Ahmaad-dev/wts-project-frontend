@@ -1,0 +1,48 @@
+name: frontend-deploy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "**/*.html"
+      - "**/*.css"
+      - "**/*.js"
+      - "**/*.png"
+      - ".github/workflows/frontend.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  STORAGE_ACCOUNT: saswewtsz1
+  WEBSITE_CONTAINER: '$web'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id:     ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:     ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Sanity check
+        run: test -f base.html
+
+      - name: Upload HTML
+        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.html" --overwrite
+
+      - name: Upload CSS
+        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.css" --overwrite
+
+      - name: Upload JS
+        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.js" --overwrite
+
+      - name: Upload PNG
+        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.png" --overwrite
