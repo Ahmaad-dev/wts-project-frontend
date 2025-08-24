@@ -44,17 +44,20 @@ jobs:
       - name: Upload files to Azure Storage
         uses: azure/CLI@v2
         with:
-          azcliversion: 2.62.0
+          azcliversion: latest
           inlineScript: |
             set -euo pipefail
             ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
+            
+            # Get the subscription ID for explicit resource targeting
+            SUBSCRIPTION_ID="${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             
             # Clear existing files first
             echo "Clearing existing files..."
             az storage blob delete-batch \
               --account-name "$ACCOUNT" \
               --source '$web' \
-              --auth-mode login || true
+              --subscription "$SUBSCRIPTION_ID" || true
             
             # Upload all files
             echo "Uploading files..."
@@ -75,9 +78,9 @@ jobs:
                 --container-name '$web' \
                 --name "$blob_name" \
                 --file "$file" \
-                --auth-mode login \
+                --subscription "$SUBSCRIPTION_ID" \
                 --overwrite
             done
             
             echo "Website URL:"
-            az storage account show -n "$ACCOUNT" --query "primaryEndpoints.web" -o tsv
+            az storage account show -n "$ACCOUNT" --subscription "$SUBSCRIPTION_ID" --query "primaryEndpoints.web" -o tsv
