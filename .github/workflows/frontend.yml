@@ -41,21 +41,43 @@ jobs:
           tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Sync entire site to $web (delete & replace)
+      - name: Upload files to Azure Storage
         uses: azure/CLI@v2
         with:
           azcliversion: 2.62.0
           inlineScript: |
             set -euo pipefail
             ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
-
-            az storage blob sync \
-              -c '$web' \
-              -s . \
+            
+            # Clear existing files first
+            echo "Clearing existing files..."
+            az storage blob delete-batch \
               --account-name "$ACCOUNT" \
-              --delete-destination true \
-              --exclude-path ".git;.github" \
-              --exclude-pattern "*.md;*.MD;*.yml;*.yaml"
+              --source '$web' \
+              --auth-mode login || true
+            
+            # Upload all files
+            echo "Uploading files..."
+            for file in $(find . -type f \
+              ! -path "./.git/*" \
+              ! -path "./.github/*" \
+              ! -name "*.md" \
+              ! -name "*.MD" \
+              ! -name "*.yml" \
+              ! -name "*.yaml"); do
+              
+              # Remove leading ./
+              blob_name=${file#./}
+              echo "Uploading: $blob_name"
+              
+              az storage blob upload \
+                --account-name "$ACCOUNT" \
+                --container-name '$web' \
+                --name "$blob_name" \
+                --file "$file" \
+                --auth-mode login \
+                --overwrite
+            done
             
             echo "Website URL:"
             az storage account show -n "$ACCOUNT" --query "primaryEndpoints.web" -o tsv
