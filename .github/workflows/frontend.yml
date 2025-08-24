@@ -3,12 +3,19 @@ name: frontend-deploy
 on:
   push:
     branches: [ main ]
+    # nur laufen, wenn sich Website-Dateien ändern
     paths:
       - "**/*.html"
       - "**/*.css"
       - "**/*.js"
       - "**/*.png"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.svg"
+      - "**/*.ico"
+      - "**/*.webmanifest"
       - ".github/workflows/frontend.yml"
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -21,28 +28,41 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    concurrency:
+      group: frontend-deploy
+      cancel-in-progress: true
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
-          client-id:     ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id:     ${{ secrets.AZURE_TENANT_ID }}
+          client-id:       ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Sanity check
-        run: test -f base.html
+      - name: Upload site files to $web
+        uses: azure/CLI@v2
+        with:
+          azcliversion: 2.62.0
+          inlineScript: |
+            set -euo pipefail
+            ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
+            DEST=${{ env.WEBSITE_CONTAINER }}
+            SRC="."
 
-      - name: Upload HTML
-        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.html" --overwrite
+            # Nur relevante Dateitypen hochladen (verhindert Upload von .github etc.)
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.html"        --overwrite --auth-mode login
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.css"         --overwrite --auth-mode login
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.js"          --overwrite --auth-mode login
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.png"         --overwrite --auth-mode login
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.jpg"         --overwrite --auth-mode login || true
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.jpeg"        --overwrite --auth-mode login || true
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.svg"         --overwrite --auth-mode login || true
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.ico"         --overwrite --auth-mode login || true
+            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.webmanifest" --overwrite --auth-mode login || true
 
-      - name: Upload CSS
-        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.css" --overwrite
-
-      - name: Upload JS
-        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.js" --overwrite
-
-      - name: Upload PNG
-        run: az storage blob upload-batch --account-name "${{ env.STORAGE_ACCOUNT }}" --destination ${{ env.WEBSITE_CONTAINER }} --source . --pattern "*.png" --overwrite
+            echo "Website URL:"
+            az storage account show -n "$ACCOUNT" --query "primaryEndpoints.web" -o tsv
