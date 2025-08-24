@@ -22,7 +22,6 @@ permissions:
 
 env:
   STORAGE_ACCOUNT: saswewtsz1
-  WEBSITE_CONTAINER: '$web'   
 
 jobs:
   deploy:
@@ -42,25 +41,23 @@ jobs:
           tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Upload site files to $web
+      - name: Sync entire site to $web (delete & replace)
         uses: azure/CLI@v2
         with:
           azcliversion: 2.62.0
           inlineScript: |
             set -euo pipefail
             ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
-            DEST="${{ env.WEBSITE_CONTAINER }}"
-            SRC="."
 
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.html"        --overwrite --auth-mode login
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.css"         --overwrite --auth-mode login
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.js"          --overwrite --auth-mode login
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.png"         --overwrite --auth-mode login
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.jpg"         --overwrite --auth-mode login || true
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.jpeg"        --overwrite --auth-mode login || true
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.svg"         --overwrite --auth-mode login || true
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.ico"         --overwrite --auth-mode login || true
-            az storage blob upload-batch --account-name "$ACCOUNT" --destination "$DEST" --source "$SRC" --pattern "*.webmanifest" --overwrite --auth-mode login || true
 
+            az storage blob sync \
+              -c '$web' \
+              -s . \
+              --account-name "$ACCOUNT" \
+              --auth-mode login \
+              --delete-destination true \
+              --exclude-path ".git;.github" \
+              --exclude-pattern "*.md;*.MD;*.yml;*.yaml"
+            
             echo "Website URL:"
             az storage account show -n "$ACCOUNT" --query "primaryEndpoints.web" -o tsv
