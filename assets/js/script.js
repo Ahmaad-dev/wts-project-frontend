@@ -21,64 +21,63 @@ function changeStation(){
   if (imgEl)  imgEl.src = IMG_BASE + s.image;
 }
 
-// ---- Stationsbeschreibung (Mitte) ----
-const STATION_EXAMPLES = [
-  { name: "Station Alpha",  desc: "Präzise Montage komplexer Bauteile mit robotischen Armen." },
-  { name: "Station Beta",   desc: "Echtzeitprüfung mit Kameras und hochmodernen Scannern." },
-  { name: "Station Gamma",  desc: "Effizientes und präzises Etikettieren von Produkten und Verpackungen." },
-  { name: "Station Delta",  desc: "Sicheres Versiegeln und Verpacken von Produkten jeder Art." },
-  { name: "Station Epsilon",desc: "Diagnose und Reparatur von Produktionsmaschinen in Echtzeit." },
-];
+// Stationsbeschreibung
+const stationDescriptions = {
+    "Station Alpha": "Montagemaschine\nDiese Maschine ist speziell für die präzise Montage von Komponenten konzipiert. Mit mehreren robotischen Armen und einer Vielzahl von Werkzeugen kann sie komplexe Teile schnell und effizient zusammensetzen. Ein integriertes Steuerungssystem ermöglicht die Anpassung an unterschiedliche Produktionsanforderungen.",
+    "Station Beta": "Qualitätskontrollmaschine\nDie Qualitätskontrollmaschine überprüft Produkte auf Fehler oder Abweichungen. Sie ist mit hochmodernen Sensoren, Kameras und Scannern ausgestattet, die genaue Inspektionen in Echtzeit durchführen. Ein digitales Interface zeigt die Ergebnisse sofort an, um schnelle Korrekturmaßnahmen zu ermöglichen.",
+    "Station Gamma": "Etikettiermaschine\nDiese Maschine übernimmt das Aufbringen von Etiketten auf Produkte oder Verpackungen. Mit einem präzisen Druckmechanismus und einem reibungslosen Förderbandsystem sorgt sie für gleichmäßige und korrekte Kennzeichnungen. Sie unterstützt verschiedene Formate und Etikettenarten.",
+    "Station Delta": "Verpackungsmaschine\nDie Verpackungsmaschine ist für das sichere und effiziente Verpacken von Produkten verantwortlich. Sie verfügt über einen Versiegelungsmechanismus und Werkzeuge zum Umwickeln und Verschließen von Kartons oder anderen Behältern. Ihre benutzerfreundliche Bedienoberfläche ermöglicht eine einfache Anpassung an unterschiedliche Verpackungstypen.",
+    "Station Epsilon": "Wartungsmaschine\nDie Wartungsmaschine ist mit Diagnosetools und Roboterarmen ausgestattet, um Maschinen in der Produktion zu überwachen und zu reparieren. Sie bietet Echtzeitberichte über den Zustand der Maschinen und führt präventive Wartungsmaßnahmen durch, um Stillstandszeiten zu minimieren."
+};
 
-function highlightStation(name){
-  const list = document.getElementById("station-list");
-  if (!list) return;
-  list.querySelectorAll(".station").forEach(p => {
-    p.classList.toggle("highlight", p.textContent.trim().toLowerCase() === String(name||"").trim().toLowerCase());
-  });
+// Funktion zur Suche nach einer Maschine
+function searchMachine() {
+    const input = document.getElementById("machine-name").value.trim();
+    const descriptionDiv = document.getElementById("station-description");
+    const stationList = document.querySelectorAll("#station-list .station");
+
+    // Setzen alle Stationen auf grau zurück
+    stationList.forEach(station => {
+        station.classList.remove("highlight");
+    });
+
+    // die passende Beschreibung, wenn der Name übereinstimmt
+    if (stationDescriptions[input]) {
+        descriptionDiv.textContent = stationDescriptions[input];
+        const station = Array.from(stationList).find(station => station.textContent === input);
+        if (station) station.classList.add("highlight");
+    } else {
+        descriptionDiv.textContent = "";
+    }
 }
 
-function showStationDescription(name){
-  const box = document.getElementById("station-description");
-  if (!box) return;
-  const s = STATION_EXAMPLES.find(x => x.name.toLowerCase() === String(name||"").toLowerCase());
-  box.textContent = s ? s.desc : "";
-  highlightStation(name);
+// Eventlistener für die Eingabe
+document.getElementById("machine-name").addEventListener("input", searchMachine);
+
+
+
+// Verfügbare und nicht verfügbare IDs
+const availableIDs = ["UG39BE-47H8UJ", "ZDSJ88-112HH", "4558N-ZZLOP"];
+const unavailableIDs = ["DFFBN-99148", "Z7ZU8-NNJK1"];
+
+// Überprüfung der ID
+function checkMachineID() {
+    const inputID = document.getElementById("machine-id").value.trim();
+    const result = document.getElementById("id-check-result");
+
+    if (availableIDs.includes(inputID)) {
+        result.textContent = "Die Maschine mit der ID ist verfügbar.";
+        result.className = "success";
+    } else if (unavailableIDs.includes(inputID)) {
+        result.textContent = "Die Maschine mit der ID ist nicht verfügbar.";
+        result.className = "warning";
+    } else {
+        result.textContent = "Die eingegebene ID ist ungültig.";
+        result.className = "error";
+    }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Eingabefeld -> Beschreibung updaten
-  const input = document.getElementById("machine-name");
-  if (input){
-    input.addEventListener("input", () => showStationDescription(input.value));
-  }
+// Eventlistener für den Button
+document.getElementById("check-id-button").addEventListener("click", checkMachineID);
 
-  // Klickbare Beispiel-Liste
-  const list = document.getElementById("station-list");
-  if (list){
-    list.querySelectorAll(".station").forEach(p => {
-      p.addEventListener("click", () => {
-        const name = p.textContent.trim();
-        const inputEl = document.getElementById("machine-name");
-        if (inputEl) inputEl.value = name;
-        showStationDescription(name);
-      });
-    });
-  }
 
-  // ID-Check (links)
-  const unavailableIDs = ["12345","54321","99999"];
-  const existingIDs    = ["22222","33333","44444","77777"];
-  const result = document.getElementById("id-check-result");
-  const btn    = document.getElementById("check-id-button");
-  const idIn   = document.getElementById("machine-id");
-  if (btn && idIn && result){
-    btn.addEventListener("click", () => {
-      const id = idIn.value.trim();
-      if (!id){ result.textContent = "Bitte eine ID eingeben."; result.className="error"; return; }
-      if (existingIDs.includes(id)){ result.textContent="Die Maschine mit der ID ist verfügbar."; result.className="success"; }
-      else if (unavailableIDs.includes(id)){ result.textContent="Die Maschine mit der ID ist nicht verfügbar."; result.className="warning"; }
-      else { result.textContent="Die eingegebene ID ist ungültig."; result.className="error"; }
-    });
-  }
-});
