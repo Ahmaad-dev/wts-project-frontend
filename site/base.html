@@ -1,107 +1,85 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDP</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Industrial Data Platform</title>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
 </head>
 <body>
-    <h1>Industrial Data Platform</h1>
-    <button id="modie-button" class="modie-button">Switch Mode</button>
+  <h1>Industrial Data Platform</h1>
+  <button id="modie-button" class="modie-button">Switch Mode</button>
 
-    <div class="welcome-box">
-        <p>Herzlich willkommen in der Zukunft!<br>
-        Hier finden Sie die Produktion des nächsten Planetens Mars.</p>
-    </div>
-    <div class="container">
-        <img src="../assets/img/production.png" alt="Eine Produktionshalle mit mehreren Maschinen, Robotern und Arbeitsbereichen" class="production-image" width="1000" height="600">
-    </div>
-    <div class="info-box">
-        <p>Die Industrial Data Platform (IDP) ist die zentrale Plattform für die Erfassung und Visualisierung von Maschinendaten in der Produktion. Sie fungiert als Single Point of Truth für aktuelle und präzise Produktionsdaten, wodurch sie die Grundlage für fundierte Entscheidungen in Echtzeit bietet.</p>
-        <p>Als zentraler Einstiegspunkt ermöglicht die IDP einen nahtlosen Zugang zu spezifischen Maschinenübersichten. Durch einfache Navigation können Nutzer per Klick auf die jeweiligen Stationen direkt auf detaillierte Informationen einzelner Maschinen zugreifen, darunter Betriebsstatus, Laufzeiten, Temperatur und Wartungsdaten.</p>
-        <p>Die IDP bietet somit nicht nur eine intuitive Benutzeroberfläche, sondern unterstützt Unternehmen aktiv dabei, Transparenz und Effizienz in der Produktionssteuerung zu erhöhen. Sie ist ein wesentlicher Schritt in Richtung einer datengetriebenen und zukunftsorientierten Industrie.</p>
-    </div>
-    <div class="stations-container">
-        <div class="stations-overview">
-            <h2>Übersicht über die Stationen</h2>
-        </div>
-        <div class="station-container">
-            <div class="station-box">
-                <h3>Station Alpha</h3>
-                <img src="../assets/img/machine1.png" alt="Montagemaschine" class="station-preview-image">
-                <h4>Präzise Montage komplexer Bauteile mit robotischen Armen</h4>
-                <p><a href="machines/machine1.html">Montagemaschine</a></p>
-            </div>
-            <div class="station-box">
-                <h3>Station Beta</h3>
-                <img src="../assets/img/machine2.png" alt="Qualitätskontrollmaschine" class="station-preview-image">
-                <h4>Echtzeitprüfung mit Kameras und hochmodernen Scannern</h4>
-                <p><a href="machines/machine2.html">Qualitätskontrollmaschine</a></p>
-            </div>
-            <div class="station-box">
-                <h3>Station Gamma</h3>
-                <img src="../assets/img/machine3.png" alt="Etikettiermaschine" class="station-preview-image">
-                <h4>Effizientes und präzises Etikettieren von Produkten und Verpackungen</h4>
-                <p><a href="machines/machine3.html">Etikettiermaschine</a></p>
-            </div>
-            <div class="station-box">
-                <h3>Station Delta</h3>
-                <img src="../assets/img/machine4.png" alt="Verpackungsmaschine" class="station-preview-image">
-                <h4>Sicheres Versiegeln und Verpacken von Produkten jeder Art</h4>
-                <p><a href="machines/machine4.html">Verpackungsmaschine</a></p>
-            </div>
-            <div class="station-box">
-                <h3>Station Epsilon</h3>
-                <img src="../assets/img/machine5.png" alt="Diagnosemaschine" class="station-preview-image">
-                <h4>Diagnose und Reparatur von Produktionsmaschinen in Echtzeit</h4>
-                <p><a href="machines/machine5.html">Diagnosemaschine</a></p>
-            </div>
-        </div>
+  <div class="welcome-box">
+    <p>Herzlich willkommen in der Zukunft!<br />
+      Hier finden Sie die Produktion des nächsten Planetens Mars.</p>
+  </div>
 
-        <div class="vorschau">
-            <div class="left-container">
-                <h3>ID-Verfügbarkeit prüfen</h3>
-                <label for="machine-id">Maschinen-ID:</label>
-                <input type="text" id="machine-id" placeholder="ID-Nummer eingeben...">
-                <button id="check-id-button">Prüfen</button>
-                <p id="id-check-result"></p>
-            </div>
-            <div class="middle-container">
-                <h3>Stationsbeschreibung</h3>
-                <label for="machine-name">Maschinenname:</label>
-                <input type="text" id="machine-name" placeholder="Maschinennamen eingeben...">
-                <div id="station-list">
-                    <h3>Beispiele</h3>
-                    <p class="station">Station Alpha</p>
-                    <p class="station">Station Beta</p>
-                    <p class="station">Station Gamma</p>
-                    <p class="station">Station Delta</p>
-                    <p class="station">Station Epsilon</p>
-                </div>
-                <div id="station-description"></div>
-            </div>
-            <div class="right-container">
-                <h3>Vorschau der Stationen</h3>
-                <h4 id="station-name">Station Alpha</h4>
-                <img id="station-image" src="../assets/img/machine1.png" alt="Station Alpha" class="machine-image" width="300">
-                <br>
-                <button onclick="changeStation()">Nächste Station</button>
-            </div>
-        </div>
+  <div class="container">
+    <img
+      src="../assets/img/production.png"
+      alt="Eine Produktionshalle mit mehreren Maschinen, Robotern und Arbeitsbereichen"
+      class="production-image"
+      width="1000" height="600"
+    />
+  </div>
+
+  <div class="info-box">
+    <p>Die Industrial Data Platform (IDP) ist die zentrale Plattform für die Erfassung und Visualisierung von Maschinendaten in der Produktion. Sie fungiert als Single Point of Truth für aktuelle und präzise Produktionsdaten, wodurch sie die Grundlage für fundierte Entscheidungen in Echtzeit bietet.</p>
+    <p>Als zentraler Einstiegspunkt ermöglicht die IDP einen nahtlosen Zugang zu spezifischen Maschinenübersichten. Durch einfache Navigation können Nutzer per Klick auf die jeweiligen Stationen direkt auf detaillierte Informationen einzelner Maschinen zugreifen, darunter Betriebsstatus, Laufzeiten, Temperatur und Wartungsdaten.</p>
+    <p>Die IDP bietet somit nicht nur eine intuitive Benutzeroberfläche, sondern unterstützt Unternehmen aktiv dabei, Transparenz und Effizienz in der Produktionssteuerung zu erhöhen. Sie ist ein wesentlicher Schritt in Richtung einer datengetriebenen und zukunftsorientierten Industrie.</p>
+  </div>
+
+  <div class="stations-container">
+    <div class="stations-overview">
+      <h2>Übersicht über die Stationen</h2>
     </div>
-    <footer>
-        <div class="footer">
-            <p>&copy; 2025 Ahmad Alsayad | <a href="mailto:se231310@fhstp.ac.at">se231310@fhstp.ac.at</a></p>
-            <p>Lukas Kirmann, se231312 | Markus Fink, se231301</p>
-            <p>Datum: 15.07.2025</p>
-            <p>
-                Impressum | Datenschutz &#128274;
-            </p>
-        </div>
-    </footer>
-    <script src="../assets/js/config.js" defer></script>
-    <script src="../assets/js/script.js" defer></script>
-    <script src="../assets/js/dataset.js?v=20250824" defer></script>
+
+    <!-- Hier rendert dataset.js die Stationen dynamisch -->
+    <div class="station-container" id="stations-grid"></div>
+
+    <div class="vorschau">
+      <div class="left-container">
+        <h3>ID-Verfügbarkeit prüfen</h3>
+        <label for="machine-id">Maschinen-ID:</label>
+        <input type="text" id="machine-id" placeholder="ID-Nummer eingeben...">
+        <button id="check-id-button">Prüfen</button>
+        <p id="id-check-result"></p>
+      </div>
+
+      <div class="middle-container">
+        <h3>Stationsbeschreibung</h3>
+        <label for="machine-name">Maschinenname:</label>
+        <input type="text" id="machine-name" placeholder="Maschinennamen eingeben...">
+
+        <!-- Liste der Stationen wird dynamisch befüllt -->
+        <div id="station-list"></div>
+        <div id="station-description"></div>
+      </div>
+
+      <div class="right-container">
+        <h3>Vorschau der Stationen</h3>
+        <h4 id="station-name">Station Alpha</h4>
+        <img id="station-image" src="../assets/img/machine1.png" alt="Station Alpha" class="machine-image" width="300">
+        <br>
+        <button onclick="changeStation()">Nächste Station</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer">
+      <p>&copy; 2025 Ahmad Alsayad | <a href="mailto:se231310@fhstp.ac.at">se231310@fhstp.ac.at</a></p>
+      <p>Lukas Kirmann, se231312 | Markus Fink, se231301</p>
+      <p>Datum: 15.07.2025</p>
+      <p>Impressum | Datenschutz &#128274;</p>
+    </div>
+  </footer>
+
+  <!-- Scripts (von /site/* zu ../assets/*) -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" defer></script>
+  <script src="../assets/js/config.js" defer></script>
+  <script src="../assets/js/script.js" defer></script>
+  <script src="../assets/js/dataset.js" defer></script>
 </body>
 </html>
