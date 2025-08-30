@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const API_BASE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.API_BASE)
         || "https://ca-swe-wts-backend.happymeadow-a2b0a3fc.swedencentral.azurecontainerapps.io";
     const SOCKET_URL = API_BASE;
-
+    
+    const IMG_BASE = location.pathname.includes("/site/machines/")
+    ? "../../assets/img/"
+    : "../assets/img/";
 
     function r3(n){ return Math.round(n*1000)/1000 }
 
@@ -58,14 +61,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (toggleIcon && technicalInfo) {
         toggleIcon.addEventListener("click", function () {
             if (technicalInfo.classList.contains("hidden")) {
-                technicalInfo.classList.remove("hidden")
-                toggleIcon.src = "pfeil-nach-unten.png"
+                technicalInfo.classList.remove("hidden");
+                toggleIcon.src = IMG_BASE + "pfeil-nach-unten.png";   // <<< Pfad fix
             } else {
-                technicalInfo.classList.add("hidden")
-                toggleIcon.src = "pfeil-nach-rechts.png"
+                technicalInfo.classList.add("hidden");
+                toggleIcon.src = IMG_BASE + "pfeil-nach-rechts.png";  // <<< Pfad fix
             }
-        })
+        });
     }
+
 
     // Online-/Offline-Status + Timer
     function updateStatus(online) {

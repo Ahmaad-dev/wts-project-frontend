@@ -1,10 +1,11 @@
 // Stationsdaten
+const IMG_BASE = "../assets/img/";
 const stations = [
-    { name: "Station Alpha", image: "machine1.png" },
-    { name: "Station Beta", image: "machine2.png" },
-    { name: "Station Gamma", image: "machine3.png" },
-    { name: "Station Delta", image: "machine4.png" },
-    { name: "Station Epsilon", image: "machine5.png" },
+    { name: "Station Alpha", image: `${IMG_BASE}machine1.png` },
+    { name: "Station Beta", image: `${IMG_BASE}machine2.png` },
+    { name: "Station Gamma", image: `${IMG_BASE}machine3.png` },
+    { name: "Station Delta", image: `${IMG_BASE}machine4.png` },
+    { name: "Station Epsilon", image: `${IMG_BASE}machine5.png` },
 ];
 
 let currentStationIndex = 0;
@@ -13,8 +14,9 @@ function changeStation() {
     currentStationIndex = (currentStationIndex + 1) % stations.length;
 
     document.getElementById("station-name").textContent = stations[currentStationIndex].name;
-    document.getElementById("station-image").src = stations[currentStationIndex].image;
+    document.getElementById("station-image").src = IMG_BASE + stations[currentStationIndex].image;
     document.getElementById("station-image").alt = stations[currentStationIndex].name;
+
 }
 
 
