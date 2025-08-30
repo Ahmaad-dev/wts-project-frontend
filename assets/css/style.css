@@ -170,8 +170,35 @@ footer p {
 	padding: 20px;
 	background: #fff;
 	border: 2px solid #ccc;
-	width: 40%;
+	width: 20%;
 	text-align: left;
+	border-radius: 10px;
+}
+/* Live Chart Container  */
+.live-chart-container {
+	margin: 20px 0;
+	padding: 20px;
+	background: #fff;
+	border: 2px solid #ccc;
+	width: 55%;
+	text-align: left;
+	border-radius: 10px;
+}
+/* Container für nebeneinander liegende Boxen */
+.bottom-section {
+	display: flex;
+	justify-content: flex-start;
+	gap: 25%;
+	margin: 20px;
+	align-items: flex-end;
+}
+.bottom-section .link-box {
+	width: 20%;
+	margin: 0;
+}
+.bottom-section .live-chart-container {
+	width: 55%;
+	margin: 0;
 }
 .link-box h3 {
 	margin-bottom: 10px;
@@ -348,7 +375,9 @@ button {
 .light-gray-mode .left-container,
 .light-gray-mode .right-container,
 .light-gray-mode .link-box,
-.light-gray-mode .two-columns {
+.light-gray-mode .live-chart-container,
+.light-gray-mode .two-columns,
+.light-gray-mode .bottom-section {
     background-color: #1e1e1e;
     color: #ffffff;
 }
@@ -461,3 +490,6 @@ button {
   display:block;
   border-radius:10px; /* falls vorher nicht gesetzt */
 }
+.chart-box{ margin-top:16px; height:260px; width:100%; }
+.right-container .chart-box{ margin-left:auto; }
+.live-chart-container .chart-box{ width:100%; max-width:100%; }
