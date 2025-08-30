@@ -13,17 +13,17 @@ document.addEventListener("DOMContentLoaded", async function(){
   function isDark(){return document.body.classList.contains("light-gray-mode");}
 
   const chart=new ApexCharts(el,{
-    chart:{type:"line",height:260,animations:{enabled:false},toolbar:{show:false},zoom:{enabled:false},background:"transparent",foreColor:isDark()?"#eee":"#333"},
+    chart:{type:"line",height:260,animations:{enabled:true,dynamicAnimation:{speed:1000}},toolbar:{show:false},zoom:{enabled:false},background:"transparent",foreColor:isDark()?"#eee":"#333"},
     theme:{mode:isDark()?"dark":"light"},
     stroke:{width:2,curve:"smooth"},
-    xaxis:{type:"datetime"},
+    xaxis:{type:"datetime",range:5*60*1000,labels:{datetimeUTC:false}},
     yaxis:[
-      {min:0,max:100,title:{text:"m/s"}},
-      {opposite:true,min:0,title:{text:"%"}}
+      {min:0,max:100,title:{text:"%"}},
+      {opposite:true,min:0,title:{text:"m/s"}}
     ],
     series:[
-      {name:"Leistung (m/s)",data:[]},
-      {name:"Geschwindigkeit (%)",data:[]}
+      {name:"Leistung (%)",data:[]},
+      {name:"Geschwindigkeit (m/s)",data:[]}
     ],
     legend:{position:"top"},
     tooltip:{shared:true,x:{format:"HH:mm:ss"}},
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async function(){
     const [da,db]=await Promise.all([a.json(),b.json()]);
     const s1=da.map(p=>[new Date(p.createdAt).getTime(),Number(p.value)||0]);
     const s2=db.map(p=>[new Date(p.createdAt).getTime(),Number(p.value)||0]);
-    chart.updateSeries([{name:"Leistung (m/s)",data:s1},{name:"Geschwindigkeit (%)",data:s2}],false);
+    chart.updateSeries([{name:"Leistung (%)",data:s1},{name:"Geschwindigkeit (m/s)",data:s2}],false);
   }
   await loadHistory();
 
@@ -51,6 +51,17 @@ document.addEventListener("DOMContentLoaded", async function(){
       chart.appendData([{data:[[t,Number(msg.aktuelleLeistung||0)]]},{data:[[t,Number(msg.geschwindigkeit||0)]]}]);
     });
   }
+
+  // Live Timeline - bewegt sich jede Sekunde nach rechts
+  setInterval(()=>{
+    const now=Date.now();
+    chart.updateOptions({
+      xaxis:{
+        min:now-5*60*1000, // 5 Minuten Fenster
+        max:now
+      }
+    },false,false);
+  },1000);
 
   const btn=document.getElementById("modie-button");
   function applyTheme(){chart.updateOptions({theme:{mode:isDark()?"dark":"light"},chart:{foreColor:isDark()?"#eee":"#333"}},false,false);}

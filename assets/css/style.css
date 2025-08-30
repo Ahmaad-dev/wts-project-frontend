@@ -12,6 +12,44 @@ h1 {
 	text-align: left;
 	border-bottom: 4px solid #ccc;
 }
+
+/* Logo Styles */
+.header-main {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+	border-bottom: 4px solid #ccc;
+	padding: 18px;
+	gap: 15px;
+}
+.header-main h1 {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+.main-logo {
+	height: 50px;
+	width: auto;
+}
+.header-container {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+	border-bottom: 4px solid #ccc;
+	padding: 18px;
+	gap: 15px;
+}
+.header-container h1 {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+.machine-logo {
+	height: 45px;
+	width: auto;
+}
 /* Willkommen-Box */
 .welcome-box {
 	background-color: #fff;
@@ -367,6 +405,10 @@ button {
 .light-gray-mode h1 {
     background-color: #1e1e1e;
     color: #ffffff;
+}
+.light-gray-mode .header-main,
+.light-gray-mode .header-container {
+    background-color: #1e1e1e;
 }
 .light-gray-mode .welcome-box {
     background-color: #1e1e1e;
