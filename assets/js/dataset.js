@@ -4,15 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     (window.__APP_CONFIG__ && window.__APP_CONFIG__.API_BASE) ||
     "https://ca-swe-wts-backend.happymeadow-a2b0a3fc.swedencentral.azurecontainerapps.io";
 
-  // von wo werden Bilder geladen?
+  // Bildpfade relativ zur Seite
   const IMG_BASE = location.pathname.includes("/site/machines/")
     ? "../../assets/img/"
     : "../assets/img/";
 
-  function r3(n) { return Math.round(n * 1000) / 1000 }
+  function r3(n){ return Math.round(n*1000)/1000 }
 
   // ======== Dark Mode ========
-  (function initDarkMode() {
+  (function initDarkMode(){
     const btn = document.getElementById("modie-button");
     const body = document.body;
     const saved = localStorage.getItem("theme");
@@ -31,16 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   })();
 
-  // ======== API Helpers ========
-  async function apiGet(path) {
-    const res = await fetch(`${API_BASE}${path}`);
-    if (!res.ok) throw new Error(`GET ${path} -> ${res.status}`);
-    return res.json();
-  }
-
   // ======== Seite erkennen ========
   function currentMachineName() {
-    // Mappe Dateiname -> Maschinenname (für Detailseiten)
     const p = window.location.pathname;
     const map = {
       "machine1.html": "Maschine1",
@@ -54,70 +46,83 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const MACHINE_NAME = currentMachineName();
 
-  // ======== HOMEPAGE: Stationen dynamisch rendern ========
+  // ======== HOMEPAGE: exakt deine frühere Darstellung (statisch) ========
+  // Reihenfolge & Texte wie früher:
+  const CATALOG = [
+    {
+      station: "Alpha",
+      machineKey: "Maschine1",
+      machineLabel: "Montagemaschine",
+      desc: "Präzise Montage komplexer Bauteile mit robotischen Armen",
+      img: "machine1.png"
+    },
+    {
+      station: "Beta",
+      machineKey: "Maschine2",
+      machineLabel: "Qualitätskontrollmaschine",
+      desc: "Echtzeitprüfung mit Kameras und hochmodernen Scannern",
+      img: "machine2.png"
+    },
+    {
+      station: "Gamma",
+      machineKey: "Maschine3",
+      machineLabel: "Etikettiermaschine",
+      desc: "Effizientes und präzises Etikettieren von Produkten und Verpackungen",
+      img: "machine3.png"
+    },
+    {
+      station: "Delta",
+      machineKey: "Maschine4",
+      machineLabel: "Verpackungsmaschine",
+      desc: "Sicheres Versiegeln und Verpacken von Produkten jeder Art",
+      img: "machine4.png"
+    },
+    {
+      station: "Epsilon",
+      machineKey: "Maschine5",
+      machineLabel: "Diagnosemaschine",
+      desc: "Diagnose und Reparatur von Produktionsmaschinen in Echtzeit",
+      img: "machine5.png"
+    }
+  ];
+
+  function machineFile(machineKey) {
+    const num = (String(machineKey).match(/\d+/) || [null])[0];
+    return num ? `machines/machine${num}.html` : `machines/machine1.html`;
+  }
+
   async function renderStationsHome() {
-    // Container suchen – wir unterstützen beide Varianten
     const grid = document.querySelector("#stations-grid") || document.querySelector(".station-container");
-    if (!grid) return; // keine Übersicht auf dieser Seite
+    if (!grid) return;
 
-    let stationsData;
-    try {
-      // bevorzugt echte Stations-API
-      stationsData = await apiGet("/api/stations"); // { stations: [...] }
-    } catch {
-      // Fallback: aus Maschinennamen "Pseudo-Stationen" machen
-      const names = await apiGet("/api/machines/names"); // { names: [...] }
-      stationsData = {
-        stations: names.names.map(n => ({ name: n, type: null, machines: [n] }))
-      };
-    }
+    // Karten genau wie vorher: Titel, Maschinename, Beschreibung, Link (Text = Maschinename)
+    grid.innerHTML = CATALOG.map(s => `
+      <div class="station-box">
+        <h3>Station ${s.station}</h3>
+        <img src="${IMG_BASE + s.img}" alt="${s.machineLabel}" class="station-preview-image">
+        <h4>${s.machineLabel}</h4>
+        <h4>${s.desc}</h4>
+        <p><a href="${machineFile(s.machineKey)}">${s.machineLabel}</a></p>
+      </div>
+    `).join("");
 
-    function imageForStation(st) {
-      const first = (st.machines && st.machines[0]) || "";
-      const num = (first.match(/\d+/) || [null])[0];
-      if (num) return `${IMG_BASE}machine${num}.png`;
-      return `${IMG_BASE}production.png`;
-    }
-
-    function machineNameToFile(n) {
-      const num = (String(n).match(/\d+/) || [null])[0];
-      return num ? `machines/machine${num}.html` : `machines/machine1.html`;
-    }
-
-    grid.innerHTML = stationsData.stations.map(st => {
-      const title = st.name || "Station";
-      const sub = st.type ? ` (${st.type})` : "";
-      const img = imageForStation(st);
-      const firstMachine = (st.machines && st.machines[0]) || "Maschine1";
-      const link = machineNameToFile(firstMachine);
-      const count = (st.machines || []).length;
-      return `
-        <div class="station-box">
-          <h3>${title}${sub}</h3>
-          <img src="${img}" alt="${title}" class="station-preview-image">
-          <h4>${count} Maschine${count === 1 ? "" : "n"}</h4>
-          <p><a href="${link}">Öffnen</a></p>
-        </div>
-      `;
-    }).join("");
-
-    // Mittlere Spalte: Liste der Stationen (falls vorhanden)
+    // Mittlere Spalte: Überschrift "Beispiele" + „Station Alpha …”
     const listWrap = document.getElementById("station-list");
     const descWrap = document.getElementById("station-description");
     if (listWrap) {
-      listWrap.innerHTML = `<h3>Stationen</h3>` + stationsData.stations.map(st => `
-        <p class="station" data-st="${st.name}">${st.name}${st.type ? ` (${st.type})` : ""}</p>
-      `).join("");
+      listWrap.innerHTML = `<h3>Beispiele</h3>` + CATALOG.map(s =>
+        `<p class="station" data-st="${s.station}">Station ${s.station}</p>`
+      ).join("");
 
       listWrap.querySelectorAll(".station").forEach(el => {
         el.style.cursor = "pointer";
         el.addEventListener("click", () => {
-          const st = stationsData.stations.find(s => s.name === el.dataset.st);
+          const st = CATALOG.find(x => x.station === el.dataset.st);
           if (descWrap && st) {
             descWrap.innerHTML = `
-              <p><strong>Name:</strong> ${st.name}</p>
-              ${st.type ? `<p><strong>Typ:</strong> ${st.type}</p>` : ""}
-              <p><strong>Maschinen:</strong> ${(st.machines || []).join(", ") || "-"}</p>
+              <p><strong>Station:</strong> ${st.station}</p>
+              <p><strong>Maschine:</strong> ${st.machineLabel}</p>
+              <p><strong>Beschreibung:</strong> ${st.desc}</p>
             `;
           }
         });
@@ -125,16 +130,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ======== MASCHINEN-SEITE: Daten & Live-Updates ========
-  function initMachineDetail() {
-    let timerInterval = null; // Offline-Timer
+  // ======== MASCHINEN-SEITE: Daten & Live-Updates (unverändert) ========
+  function initMachineDetail(){
+    let timerInterval = null;
     const statusCircle = document.getElementById("status-circle");
     const offlineTimer = document.getElementById("offline-timer");
     const timerDisplay = document.getElementById("timer");
     const toggleIcon = document.getElementById("toggle-icon");
     const technicalInfo = document.getElementById("technical-info");
 
-    // Toggle technische Infos
     if (toggleIcon && technicalInfo) {
       toggleIcon.addEventListener("click", () => {
         const hidden = technicalInfo.classList.toggle("hidden");
@@ -182,30 +186,27 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     }
 
-    function renderError(message) {
+    function renderError(msg) {
       const el = document.querySelector(".machine-info");
       if (!el) return;
-      el.innerHTML = `<li><strong>Fehler:</strong> ${message}</li>`;
+      el.innerHTML = `<li><strong>Fehler:</strong> ${msg}</li>`;
     }
 
-    let inFlight; // AbortController
+    let inFlight;
     function fetchData() {
       if (inFlight) inFlight.abort();
       inFlight = new AbortController();
       fetch(`${API_BASE}/api/machines/${MACHINE_NAME}`, { signal: inFlight.signal })
         .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-        .then(data => { updateStatus(true); renderMachineData(data); })
+        .then(d => { updateStatus(true); renderMachineData(d); })
         .catch(() => { updateStatus(false); renderError("Die Daten konnten nicht geladen werden."); });
     }
 
-    // Initial ggf. Offline-Timer fortsetzen
     if (localStorage.getItem("offlineStartTime")) updateStatus(false);
 
-    // Polling
     fetchData();
     setInterval(fetchData, 5000);
 
-    // Live via Socket.IO (falls eingebunden)
     if (typeof io !== "undefined") {
       const sock = io(API_BASE, { transports: ["websocket"] });
       sock.on("connect", () => updateStatus(true));
@@ -229,16 +230,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ======== Einstieg je nach Seite ========
+  // ======== Einstieg ========
   if (MACHINE_NAME) {
     // Detailseite
     initMachineDetail();
-
-    // OPTIONAL: Überschrift aus DB (wenn du im HTML z.B. <h1 id="page-title">…</h1> hast)
-    // apiGet(`/api/machines/${encodeURIComponent(MACHINE_NAME)}`).then(d => {
-    //   const h = document.getElementById("page-title");
-    //   if (h && d && d.identifikation) h.textContent = `${MACHINE_NAME} • ${d.identifikation}`;
-    // }).catch(() => {});
   } else {
     // Homepage
     renderStationsHome();
