@@ -472,3 +472,30 @@ button {
 @media (max-width: 640px){
   .station-preview-image{ width: 160px; }
 }
+/* Grid für Stationen */
+.stations-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap:16px;
+}
+
+/* Kartenstyle */
+.station-card{
+  background:#0b1220; /* oder hell je nach Theme */
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+  text-align:center;
+}
+.station-card img{
+  width:100%;
+  max-width:180px;   /* <- bewährt */
+  height:auto;
+  aspect-ratio:auto;
+  display:block;
+  margin:8px auto 12px;
+}
+.station-card .btn{
+  display:inline-block;
+  margin-top:8px;
+}
