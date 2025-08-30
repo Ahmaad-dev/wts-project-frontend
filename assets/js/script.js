@@ -10,7 +10,7 @@ const stations = [
 // Bildbasis relativ zu /site/base.html
 const IMG_BASE = "../assets/img/";
 
-let currentStationIndex = 0;
+let currentStationIndex = 0; 
 
 function changeStation(){
   currentStationIndex = (currentStationIndex + 1) % stations.length;
