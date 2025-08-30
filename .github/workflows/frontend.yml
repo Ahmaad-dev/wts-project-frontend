@@ -34,42 +34,56 @@ jobs:
           tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # Uploads
-      - name: Upload assets/ to $web
+      # ===== Upload mit passenden Cache-Headern =====
+
+      # CSS: lang cachen
+      - name: Upload CSS (immutable cache)
         run: |
           az storage blob upload-batch \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
-            -d '$web' -s assets --overwrite true
+            -d '$web' -s assets \
+            --pattern "css/*" \
+            --overwrite true \
+            --content-cache-control "public, max-age=31536000, immutable"
 
-      - name: Upload site/ to $web
+      # Images: lang cachen
+      - name: Upload images (immutable cache)
         run: |
           az storage blob upload-batch \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
-            -d '$web' -s site --overwrite true
+            -d '$web' -s assets \
+            --pattern "img/*" \
+            --overwrite true \
+            --content-cache-control "public, max-age=31536000, immutable"
 
-      # Cache-Header
-      - name: Set cache headers
+      # JS: generell no-cache
+      - name: Upload JS (no-cache)
         run: |
-          SA="${{ env.STORAGE_ACCOUNT }}"
+          az storage blob upload-batch \
+            --account-name "${{ env.STORAGE_ACCOUNT }}" \
+            -d '$web' -s assets \
+            --pattern "js/*" \
+            --overwrite true \
+            --content-cache-control "no-cache"
 
-          # Lang cachen: CSS/Images
-          az storage blob update-batch --account-name "$SA" -d '$web' \
-            --pattern "assets/css/*" --content-cache-control "public, max-age=31536000, immutable"
-          az storage blob update-batch --account-name "$SA" -d '$web' \
-            --pattern "assets/img/*" --content-cache-control "public, max-age=31536000, immutable"
-
-          # JS generell: no-cache (damit Updates greifen)
-          az storage blob update-batch --account-name "$SA" -d '$web' \
-            --pattern "assets/js/*" --content-cache-control "no-cache"
-
-          # Config explizit: no-store (API_BASE-Änderungen sofort)
-          az storage blob update --account-name "$SA" -c '$web' \
+      # config.js: strikt no-store (überschreibt den obigen Header nur für diese Datei)
+      - name: Enforce no-store for config.js
+        run: |
+          az storage blob update \
+            --account-name "${{ env.STORAGE_ACCOUNT }}" \
+            -c '$web' \
             -n 'assets/js/config.js' \
             --content-cache-control "no-store"
 
-          # HTML nie cachen
-          az storage blob update-batch --account-name "$SA" -d '$web' \
-            --pattern "*.html" --content-cache-control "no-cache"
+      # HTML (site/): nie cachen
+      - name: Upload HTML (no-cache)
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ env.STORAGE_ACCOUNT }}" \
+            -d '$web' -s site \
+            --pattern "*.html" \
+            --overwrite true \
+            --content-cache-control "no-cache"
 
       - name: Website URL
         run: |
