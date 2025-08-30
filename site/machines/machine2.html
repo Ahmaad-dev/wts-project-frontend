@@ -49,15 +49,24 @@
         </div>
     </div>
 
-    <!-- Verlinkung zu anderen Maschinen -->
-    <div class="link-box">
-        <h3>Weitere Maschinen</h3>
-        <ul>
-            <li><a href="machine1.html">Station Alpha: Montagemaschine</a></li>
-            <li><a href="machine3.html">Station Gamma: Etikettiermaschine</a></li>
-            <li><a href="machine4.html">Station Delta: Verpackungsmaschine</a></li>
-            <li><a href="machine5.html">Station Epsilon: Diagnosemaschine</a></li>
-        </ul>
+    <!-- Bottom Section: Weitere Maschinen links, Live Chart rechts -->
+    <div class="bottom-section">
+        <!-- Verlinkung zu anderen Maschinen -->
+        <div class="link-box">
+            <h3>Weitere Maschinen</h3>
+            <ul>
+                <li><a href="machine1.html">Station Alpha: Montagemaschine</a></li>
+                <li><a href="machine3.html">Station Gamma: Etikettiermaschine</a></li>
+                <li><a href="machine4.html">Station Delta: Verpackungsmaschine</a></li>
+                <li><a href="machine5.html">Station Epsilon: Diagnosemaschine</a></li>
+            </ul>
+        </div>
+
+        <!-- Live Chart Container -->
+        <div class="live-chart-container">
+            <h3>Live: Leistung &amp; Geschwindigkeit</h3>
+            <div id="liveChart" class="chart-box" aria-label="Live Chart: Leistung und Geschwindigkeit"></div>
+        </div>
     </div>
 
     <!-- Fußzeile mit Impressum und Kontaktdaten -->
@@ -72,6 +81,8 @@
 
     <!-- Zurück-Link zur Hauptseite -->
     <a href="../base.html" class="back-link">Zurück zur Hauptseite</a>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../../assets/js/livechart-apex.js" defer></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" defer></script>
     <script src="../../assets/js/config.js" defer></script>
     <script src="../../assets/js/dataset.js?v=20250824" defer></script>
