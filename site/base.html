@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IDP</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <h1>Industrial Data Platform</h1>
@@ -15,7 +15,7 @@
         Hier finden Sie die Produktion des nächsten Planetens Mars.</p>
     </div>
     <div class="container">
-        <img src="production.png" alt="Eine Produktionshalle mit mehreren Maschinen, Robotern und Arbeitsbereichen" class="production-image" width="1000" height="600">
+        <img src="../assets/img/production.png" alt="Eine Produktionshalle mit mehreren Maschinen, Robotern und Arbeitsbereichen" class="production-image" width="1000" height="600">
     </div>
     <div class="info-box">
         <p>Die Industrial Data Platform (IDP) ist die zentrale Plattform für die Erfassung und Visualisierung von Maschinendaten in der Produktion. Sie fungiert als Single Point of Truth für aktuelle und präzise Produktionsdaten, wodurch sie die Grundlage für fundierte Entscheidungen in Echtzeit bietet.</p>
@@ -30,27 +30,27 @@
             <div class="station-box">
                 <h3>Station Alpha</h3>
                 <h4>Präzise Montage komplexer Bauteile mit robotischen Armen</h4>
-                <p><a href="machine1.html">Montagemaschine</a></p>
+                <p><a href="machines/machine1.html">Montagemaschine</a></p>
             </div>
             <div class="station-box">
                 <h3>Station Beta</h3>
                 <h4>Echtzeitprüfung mit Kameras und hochmodernen Scannern</h4>
-                <p><a href="machine2.html">Qualitätskontrollmaschine</a></p>
+                <p><a href="machines/machine2.html">Qualitätskontrollmaschine</a></p>
             </div>
             <div class="station-box">
                 <h3>Station Gamma</h3>
                 <h4>Effizientes und präzises Etikettieren von Produkten und Verpackungen</h4>
-                <p><a href="machine3.html">Etikettiermaschine</a></p>
+                <p><a href="machines/machine3.html">Etikettiermaschine</a></p>
             </div>
             <div class="station-box">
                 <h3>Station Delta</h3>
                 <h4>Sicheres Versiegeln und Verpacken von Produkten jeder Art</h4>
-                <p><a href="machine4.html">Verpackungsmaschine</a></p>
+                <p><a href="machines/machine4.html">Verpackungsmaschine</a></p>
             </div>
             <div class="station-box">
                 <h3>Station Epsilon</h3>
                 <h4>Diagnose und Reparatur von Produktionsmaschinen in Echtzeit</h4>
-                <p><a href="machine5.html">Diagnosemaschine</a></p>
+                <p><a href="machines/machine5.html">Diagnosemaschine</a></p>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
             <div class="right-container">
                 <h3>Vorschau der Stationen</h3>
                 <h4 id="station-name">Station Alpha</h4>
-                <img id="station-image" src="machine1.png" alt="Station Alpha" class="machine-image" width="300">
+                <img id="station-image" src="../assets/img/machine1.png" alt="Station Alpha" class="machine-image" width="300">
                 <br>
                 <button onclick="changeStation()">Nächste Station</button>
             </div>
@@ -95,7 +95,8 @@
             </p>
         </div>
     </footer>
-    <script src="script.js" defer></script>
-    <script src="dataset.js?v=20250824" defer></script>
+    <script src="../assets/js/config.js" defer></script>
+    <script src="../assets/js/script.js" defer></script>
+    <script src="../assets/js/dataset.js?v=20250824" defer></script>
 </body>
 </html>

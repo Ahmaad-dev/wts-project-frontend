@@ -9,8 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const body = document.body // nötig für den Dark-Mode
 
     // API-Basis & Socket-URL 
-    const API_BASE = "https://ca-swe-wts-backend.happymeadow-a2b0a3fc.swedencentral.azurecontainerapps.io";
+    const API_BASE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.API_BASE)
+        || "https://ca-swe-wts-backend.happymeadow-a2b0a3fc.swedencentral.azurecontainerapps.io";
     const SOCKET_URL = API_BASE;
+
 
     function r3(n){ return Math.round(n*1000)/1000 }
 

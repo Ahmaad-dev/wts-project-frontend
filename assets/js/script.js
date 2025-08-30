@@ -77,4 +77,24 @@ function checkMachineID() {
 // Eventlistener für den Button
 document.getElementById("check-id-button").addEventListener("click", checkMachineID);
 
+(function hydrateNamesFromApi(){
+  try {
+    const API_BASE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.API_BASE) || "";
+    const list = document.getElementById("station-list");
+    if (!list) return;
 
+    fetch(`${API_BASE}/api/machines/names`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(({ names }) => {
+        // Liste leeren und mit echten Namen/Links füllen
+        list.innerHTML = "<h3>Maschinen</h3>";
+        names.forEach(n => {
+          const p = document.createElement("p");
+          p.className = "station";
+          p.textContent = n;
+          list.appendChild(p);
+        });
+      })
+      .catch(() => {/* still ok, fallback bleibt */});
+  } catch {}
+})();

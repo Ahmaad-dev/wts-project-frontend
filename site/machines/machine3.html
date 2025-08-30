@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maschine 5</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Maschine 3</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
     <!-- Hauptüberschrift und Switch Mode Button -->
-    <h1>Station Epsilon</h1>
+    <h1>Station Gamma</h1>
     <button id="modie-button" class="modie-button">Switch Mode</button>
 
     <!-- Zwei-Spalten-Layout: Links Textinformationen, rechts Bild -->
     <div class="two-columns">
         <!-- Linke Spalte: Informationen über die Maschine -->
         <div class="left-container">
-            <h2>Diagnosemaschine</h2>
+            <h2>Etikettiermaschine</h2>
             <p>
-                Diese Maschine ermöglicht eine schnelle und präzise Analyse von Produktionsanlagen. 
-                Sie kann Störungen frühzeitig erkennen und trägt zur Verbesserung der Wartung bei.
+                Diese Maschine ist für die präzise und schnelle Anbringung von Etiketten auf Produkten 
+                entwickelt worden. Sie arbeitet effizient und zuverlässig in verschiedenen Produktionslinien.
             </p>
 
             <!-- Bereich für die technischen Informationen der Maschine -->
             <h3>
-                <img id="toggle-icon" src="pfeil-nach-rechts.png" alt="Toggle Pfeil" class="toggle-icon">
+                <img id="toggle-icon" src="../../assets/img/pfeil-nach-rechts.png" alt="Toggle Pfeil" class="toggle-icon">
                 Technische Informationen
             </h3>
             <ul id="technical-info" class="machine-info hidden">
@@ -41,7 +41,7 @@
 
         <!-- Rechte Spalte: Bild der Maschine -->
         <div class="right-container">
-            <img src="machine5.png" alt="Maschine 5 Bild" class="machine-image" width="500" height="300">
+            <img src="../../assets/img/machine3.png" alt="Maschine 3 Bild" class="machine-image" width="500" height="300">
         </div>
     </div>
 
@@ -51,8 +51,8 @@
         <ul>
             <li><a href="machine1.html">Station Alpha: Montagemaschine</a></li>
             <li><a href="machine2.html">Station Beta: Qualitätskontrollmaschine</a></li>
-            <li><a href="machine3.html">Station Gamma: Etikettiermaschine</a></li>
             <li><a href="machine4.html">Station Delta: Verpackungsmaschine</a></li>
+            <li><a href="machine5.html">Station Epsilon: Diagnosemaschine</a></li>
         </ul>
     </div>
 
@@ -67,8 +67,9 @@
     </footer>
 
     <!-- Zurück-Link zur Hauptseite -->
-    <a href="base.html" class="back-link">Zurück zur Hauptseite</a>
+    <a href="../base.html" class="back-link">Zurück zur Hauptseite</a>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" defer></script>
-    <script src="dataset.js?v=20250824" defer></script>
+    <script src="../../assets/js/config.js" defer></script>
+    <script src="../../assets/js/dataset.js?v=20250824" defer></script>
 </body>
 </html>

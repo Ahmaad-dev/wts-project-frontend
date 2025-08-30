@@ -4,15 +4,8 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "**/*.html"
-      - "**/*.css"
-      - "**/*.js"
-      - "**/*.png"
-      - "**/*.jpg"
-      - "**/*.jpeg"
-      - "**/*.svg"
-      - "**/*.ico"
-      - "**/*.webmanifest"
+      - "site/**"
+      - "assets/**"
       - ".github/workflows/frontend.yml"
   workflow_dispatch:
 
@@ -41,46 +34,43 @@ jobs:
           tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Upload files to Azure Storage
-        uses: azure/CLI@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            set -euo pipefail
-            ACCOUNT="${{ env.STORAGE_ACCOUNT }}"
-            
-            # Get the subscription ID for explicit resource targeting
-            SUBSCRIPTION_ID="${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-            
-            # Clear existing files first
-            echo "Clearing existing files..."
-            az storage blob delete-batch \
-              --account-name "$ACCOUNT" \
-              --source '$web' \
-              --subscription "$SUBSCRIPTION_ID" || true
-            
-            # Upload all files
-            echo "Uploading files..."
-            for file in $(find . -type f \
-              ! -path "./.git/*" \
-              ! -path "./.github/*" \
-              ! -name "*.md" \
-              ! -name "*.MD" \
-              ! -name "*.yml" \
-              ! -name "*.yaml"); do
-              
-              # Remove leading ./
-              blob_name=${file#./}
-              echo "Uploading: $blob_name"
-              
-              az storage blob upload \
-                --account-name "$ACCOUNT" \
-                --container-name '$web' \
-                --name "$blob_name" \
-                --file "$file" \
-                --subscription "$SUBSCRIPTION_ID" \
-                --overwrite
-            done
-            
-            echo "Website URL:"
-            az storage account show -n "$ACCOUNT" --subscription "$SUBSCRIPTION_ID" --query "primaryEndpoints.web" -o tsv
+      # Uploads
+      - name: Upload assets/ to $web
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ env.STORAGE_ACCOUNT }}" \
+            -d '$web' -s assets --overwrite true
+
+      - name: Upload site/ to $web
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ env.STORAGE_ACCOUNT }}" \
+            -d '$web' -s site --overwrite true
+
+      # Cache-Header
+      - name: Set cache headers
+        run: |
+          SA="${{ env.STORAGE_ACCOUNT }}"
+
+          # Lang cachen: CSS/Images
+          az storage blob update-batch --account-name "$SA" -d '$web' \
+            --pattern "assets/css/*" --content-cache-control "public, max-age=31536000, immutable"
+          az storage blob update-batch --account-name "$SA" -d '$web' \
+            --pattern "assets/img/*" --content-cache-control "public, max-age=31536000, immutable"
+
+          # JS generell: no-cache (damit Updates greifen)
+          az storage blob update-batch --account-name "$SA" -d '$web' \
+            --pattern "assets/js/*" --content-cache-control "no-cache"
+
+          # Config explizit: no-store (API_BASE-Änderungen sofort)
+          az storage blob update --account-name "$SA" -c '$web' \
+            -n 'assets/js/config.js' \
+            --content-cache-control "no-store"
+
+          # HTML nie cachen
+          az storage blob update-batch --account-name "$SA" -d '$web' \
+            --pattern "*.html" --content-cache-control "no-cache"
+
+      - name: Website URL
+        run: |
+          az storage account show -n "${{ env.STORAGE_ACCOUNT }}" --query "primaryEndpoints.web" -o tsv

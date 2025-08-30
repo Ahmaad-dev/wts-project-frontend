@@ -433,3 +433,22 @@ button {
 .light-gray-mode #station-description {
     color: #ffffff; /* Die Schriftfarbe im Dark Mode auf weiß setzen */
 }
+/* Footer (einfach) – für Maschinen-Seiten */
+.footer-simple{
+  background:#333;
+  color:#fff;
+  text-align:center;
+  padding:10px 0;
+  font-size:.9em;
+}
+.footer-simple a{ color:#fff; text-decoration:none; }
+.footer-simple a:hover{ text-decoration:underline; }
+.footer-simple p{ margin:5px 0; }
+
+/* Startseitenbild responsiv */
+.production-image{
+  max-width:100%;
+  height:auto;
+  display:block;
+  border-radius:10px; /* falls vorher nicht gesetzt */
+}
