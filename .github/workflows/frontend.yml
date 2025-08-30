@@ -40,6 +40,7 @@ jobs:
       - name: Upload CSS (immutable cache)
         run: |
           az storage blob upload-batch \
+            --auth-mode login \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
             -d '$web' -s assets \
             --pattern "css/*" \
@@ -50,35 +51,41 @@ jobs:
       - name: Upload images (immutable cache)
         run: |
           az storage blob upload-batch \
+            --auth-mode login \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
             -d '$web' -s assets \
             --pattern "img/*" \
             --overwrite true \
             --content-cache-control "public, max-age=31536000, immutable"
 
-      # JS: generell no-cache
+      # JS: allgemein no-cache
       - name: Upload JS (no-cache)
         run: |
           az storage blob upload-batch \
+            --auth-mode login \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
             -d '$web' -s assets \
             --pattern "js/*" \
             --overwrite true \
             --content-cache-control "no-cache"
 
-      # config.js: strikt no-store (überschreibt den obigen Header nur für diese Datei)
+      # config.js: strikt no-store (richtiger Blob-Pfad: js/config.js)
       - name: Enforce no-store for config.js
         run: |
-          az storage blob update \
+          az storage blob upload \
+            --auth-mode login \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
             -c '$web' \
-            -n 'assets/js/config.js' \
+            --file assets/js/config.js \
+            --name js/config.js \
+            --overwrite \
             --content-cache-control "no-store"
 
       # HTML (site/): nie cachen
       - name: Upload HTML (no-cache)
         run: |
           az storage blob upload-batch \
+            --auth-mode login \
             --account-name "${{ env.STORAGE_ACCOUNT }}" \
             -d '$web' -s site \
             --pattern "*.html" \
