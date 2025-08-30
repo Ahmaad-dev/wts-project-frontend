@@ -89,14 +89,6 @@ h1 {
 	font-size: 1em;
 	color: #333;
 }
-.station-preview-image {
-	width: 100%;
-	max-width: 200px;
-	height: auto;
-	border-radius: 8px;
-	margin: 10px 0;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
 /* Footer */
 footer {
 	background-color: #333;
