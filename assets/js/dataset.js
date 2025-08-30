@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ======== MASCHINEN-SEITE: Daten & Live-Updates (unverändert) ========
+  // ======== MASCHINEN-SEITE: Daten & Live-Updates  ========
   function initMachineDetail(){
     let timerInterval = null;
     const statusCircle = document.getElementById("status-circle");

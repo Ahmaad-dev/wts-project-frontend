@@ -99,3 +99,20 @@ document.getElementById("check-id-button").addEventListener("click", checkMachin
       .catch(() => {/* still ok, fallback bleibt */});
   } catch {}
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.getElementById('station-list');
+  if (!list) return; // nicht auf Maschinen-Seiten laufen
+  
+  const STATION_BEISPIELE = [
+    'Station Alpha',
+    'Station Beta',
+    'Station Gamma',
+    'Station Delta',
+    'Station Epsilon'
+  ];
+
+  list.innerHTML =
+    '<h3>Beispiele</h3>' +
+    STATION_BEISPIELE.map(n => `<p class="station">${n}</p>`).join('');
+});
