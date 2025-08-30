@@ -89,6 +89,15 @@ h1 {
 	font-size: 1em;
 	color: #333;
 }
+/* Station Preview Images - Größe begrenzen */
+.station-preview-image {
+	max-width: 100%;
+	height: auto;
+	max-height: 150px;
+	border-radius: 8px;
+	margin: 10px 0;
+	object-fit: contain;
+}
 /* Footer */
 footer {
 	background-color: #333;
